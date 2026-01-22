@@ -47,6 +47,18 @@
         <form id="healthForm" class="p-8">
             <!-- 第一部分：基础信息 -->
             <div id="section-1" class="form-section active space-y-6">
+                <!-- 新增：姓名与电话 -->
+<div class="grid grid-cols-1 gap-5">
+    <div>
+        <label class="block text-sm font-semibold mb-2">姓名</label>
+        <input type="text" name="name" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" required placeholder="请输入您的真实姓名">
+    </div>
+    <div>
+        <label class="block text-sm font-semibold mb-2">联系电话</label>
+        <input type="tel" name="phone" class="w-full p-4 bg-siate-50 border-2 border-slate-100 rounded-2xl input-focus" required placeholder="用于健康方案沟通，请填写有效号码">
+    </div>
+</div>
+<hr class="my-6 border-slate-200">
                 <div class="grid grid-cols-2 gap-5">
                     <div class="col-span-2">
                         <label class="block text-sm font-semibold mb-3">您的性别</label>
@@ -326,4 +338,5 @@
         }
     </script>
 </body>
+
 </html>
