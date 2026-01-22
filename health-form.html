@@ -11,54 +11,48 @@
         .form-section { display: none; }
         .form-section.active { display: block; animation: slideUp 0.4s ease-out; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .active-step-bar { background-color: #2563eb; width: 100%; height: 4px; transition: width 0.5s ease; }
-        .custom-checkbox:checked + div { border-color: #2563eb; background-color: #eff6ff; color: #1e40af; }
         .input-focus:focus { border-color: #2563eb; ring: 2px solid #dbeafe; outline: none; }
     </style>
 </head>
 <body class="min-h-screen py-8 px-4 flex justify-center">
 
     <div class="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100">
-        <!-- 头部标题与模块说明 -->
         <div class="bg-slate-900 p-8 text-white relative">
             <div id="step-info-1" class="step-info">
                 <h1 class="text-2xl font-bold text-blue-400">有方家，您的健康管家</h1>
-                <p class="text-slate-400 text-xs mt-2 italic">第一步：基础指标录入 —— 建立代谢基准，计算您的 BMI 与 BMR</p>
+                <p class="text-slate-400 text-xs mt-2 italic">第一步：基础指标录入 —— 建立代谢基准</p>
             </div>
             <div id="step-info-2" class="step-info hidden">
                 <h1 class="text-2xl font-bold text-blue-400">有方家，您的健康管家</h1>
-                <p class="text-slate-400 text-xs mt-2 italic">第二步：身体状况评估 —— 识别临床风险、过敏禁忌及中医体质</p>
+                <p class="text-slate-400 text-xs mt-2 italic">第二步：身体状况评估 —— 识别临床风险</p>
             </div>
             <div id="step-info-3" class="step-info hidden">
                 <h1 class="text-2xl font-bold text-blue-400">有方家，您的健康管家</h1>
-                <p class="text-slate-400 text-xs mt-2 italic">第三步：生活方式与偏好 —— 确保健康管理方案的可执行性</p>
+                <p class="text-slate-400 text-xs mt-2 italic">第三步：生活方式与偏好 —— 确保方案执行力</p>
             </div>
             <div id="step-info-4" class="step-info hidden">
                 <h1 class="text-2xl font-bold text-blue-400">有方家，您的健康管家</h1>
-                <p class="text-slate-400 text-xs mt-2 italic">第四步：核心目标设定 —— 驱动个性化方案生成的最终环节</p>
+                <p class="text-slate-400 text-xs mt-2 italic">第四步：核心目标设定 —— 驱动个性化方案</p>
             </div>
         </div>
 
-        <!-- 进度条 -->
         <div class="w-full bg-slate-200 h-1">
             <div id="progress-bar" class="bg-blue-600 h-1 transition-all duration-500" style="width: 25%;"></div>
         </div>
 
         <form id="healthForm" class="p-8">
-            <!-- 第一部分：基础信息 -->
             <div id="section-1" class="form-section active space-y-6">
-                <!-- 新增：姓名与电话 -->
-<div class="grid grid-cols-1 gap-5">
-    <div>
-        <label class="block text-sm font-semibold mb-2">姓名</label>
-        <input type="text" name="name" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" required placeholder="请输入您的真实姓名">
-    </div>
-    <div>
-        <label class="block text-sm font-semibold mb-2">联系电话</label>
-        <input type="tel" name="phone" class="w-full p-4 bg-siate-50 border-2 border-slate-100 rounded-2xl input-focus" required placeholder="用于健康方案沟通，请填写有效号码">
-    </div>
-</div>
-<hr class="my-6 border-slate-200">
+                <div class="grid grid-cols-1 gap-5">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">姓名</label>
+                        <input type="text" name="name" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" required placeholder="请输入您的真实姓名">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">联系电话</label>
+                        <input type="tel" name="phone" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" required placeholder="请填写有效号码">
+                    </div>
+                </div>
+                <hr class="my-6 border-slate-200">
                 <div class="grid grid-cols-2 gap-5">
                     <div class="col-span-2">
                         <label class="block text-sm font-semibold mb-3">您的性别</label>
@@ -90,128 +84,86 @@
                         <input type="number" name="target_weight" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus">
                     </div>
                 </div>
-                <!-- BMI 显示 -->
                 <div id="bmi-panel" class="hidden p-5 rounded-2xl flex justify-between items-center transition-all duration-500">
                     <div>
-                        <p class="text-xs uppercase opacity-80 font-bold">代谢指标 BMI</p>
+                        <p class="text-xs uppercase opacity-80 font-bold">实时 BMI 指数</p>
                         <p id="bmi-status" class="text-sm font-bold mt-1">--</p>
                     </div>
                     <span id="bmi-val" class="text-3xl font-black">--</span>
                 </div>
             </div>
 
-            <!-- 第二部分：身体状况 -->
             <div id="section-2" class="form-section space-y-6">
                 <div>
-                    <label class="block text-sm font-semibold mb-3">健康问题 (多选，请按实际勾选)</label>
+                    <label class="block text-sm font-semibold mb-3">健康问题 (多选)</label>
                     <div class="grid grid-cols-2 gap-2">
                         <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="高血压" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血压</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="高血糖/糖尿病" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血糖/糖尿病</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="高血糖/糖尿病" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血糖</div></label>
                         <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="高血脂" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血脂</div></label>
                         <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="脂肪肝" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">脂肪肝</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="尿酸高/痛风" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">尿酸高/痛风</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="胃炎/胃溃疡" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">胃炎/胃溃疡</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="肠胃不适" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">肠胃不适</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="失眠" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">失眠</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="过敏性鼻炎" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">过敏性鼻炎</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="哮喘" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">哮喘</div></label>
-                        <!-- 其他选项 -->
                         <label class="cursor-pointer col-span-2">
                             <input type="checkbox" name="health_issues" value="其他" id="other_health_checkbox" class="hidden peer" onchange="toggleOtherInput()">
                             <div class="p-3 border rounded-xl text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">其他（请说明）</div>
                         </label>
                     </div>
-                    <!-- 自填项输入框 -->
                     <div id="other_health_input_container" class="hidden mt-3">
                         <input type="text" name="other_health_detail" id="other_health_detail" placeholder="请补充您的健康问题..." class="w-full p-4 bg-slate-50 border rounded-2xl text-xs input-focus">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold mb-2">食物过敏或不耐受</label>
-                    <input type="text" name="allergy" placeholder="如有请填写具体食物名称" class="w-full p-4 bg-slate-50 border rounded-2xl">
+                    <label class="block text-sm font-semibold mb-2">食物过敏</label>
+                    <input type="text" name="allergy" placeholder="如有请填写" class="w-full p-4 bg-slate-50 border rounded-2xl">
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold mb-2">中医体质评估 (如已知)</label>
+                    <label class="block text-sm font-semibold mb-2">中医体质评估</label>
                     <select name="constitution" class="w-full p-4 bg-slate-50 border rounded-2xl">
                         <option value="平和质">平和质 (健康状态)</option>
-                        <option value="气虚/血虚">气虚/血虚 (易乏力)</option>
-                        <option value="阴虚/阳虚">阴虚/阳虚 (怕冷/怕热)</option>
-                        <option value="湿热/痰湿">湿热/痰湿 (易出油/偏胖)</option>
-                        <option value="气郁/血瘀">气郁/血瘀 (心情抑郁/面色暗)</option>
+                        <option value="气虚/血虚">气虚/血虚</option>
+                        <option value="湿热/痰湿">湿热/痰湿</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 第三部分：生活方式与偏好 -->
             <div id="section-3" class="form-section space-y-6">
                 <div>
-                    <label class="block text-sm font-semibold mb-3">饮食条件 (影响方案执行)</label>
+                    <label class="block text-sm font-semibold mb-3">饮食条件</label>
                     <div class="flex flex-wrap gap-2">
                         <label class="cursor-pointer"><input type="radio" name="diet_condition" value="自己做饭" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">自己做饭</div></label>
                         <label class="cursor-pointer"><input type="radio" name="diet_condition" value="公司食堂" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">公司食堂</div></label>
                         <label class="cursor-pointer"><input type="radio" name="diet_condition" value="经常外卖" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">经常外卖</div></label>
-                        <label class="cursor-pointer"><input type="radio" name="diet_condition" value="外出就餐" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">外出就餐</div></label>
                     </div>
                 </div>
-
                 <div>
-                    <label class="block text-sm font-semibold mb-2">日均饮水量 (按杯计，每杯约250ml)</label>
-                    <select id="water_cups" name="water_cups" class="w-full p-4 bg-slate-50 border rounded-2xl">
-                        <option value="2">2杯 (约 500ml)</option>
-                        <option value="4">4杯 (约 1000ml)</option>
-                        <option value="6">6杯 (约 1500ml)</option>
-                        <option value="8">8杯 (约 2000ml)</option>
-                        <option value="10">10杯以上 (约 2500ml+)</option>
+                    <label class="block text-sm font-semibold mb-2">日均饮水量</label>
+                    <select name="water_cups" class="w-full p-4 bg-slate-50 border rounded-2xl">
+                        <option value="4">约 1000ml</option>
+                        <option value="6" selected>约 1500ml</option>
+                        <option value="8">约 2000ml</option>
                     </select>
                 </div>
-
                 <div>
-                    <label class="block text-sm font-semibold mb-2">睡眠状况 (可多选)</label>
+                    <label class="block text-sm font-semibold mb-2">睡眠状况</label>
                     <div class="grid grid-cols-2 gap-2">
                         <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="睡眠充足" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">睡眠充足</div></label>
                         <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="入睡困难" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">入睡困难</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="易醒多梦" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">易醒多梦</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="早醒" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">早醒</div></label>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold mb-2">口味与饮品习惯</label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <select name="taste" class="p-3 bg-slate-50 border rounded-xl text-xs">
-                            <option value="口味清淡">口味清淡</option>
-                            <option value="偏咸偏油">偏咸偏油</option>
-                            <option value="偏爱甜食">偏爱甜食</option>
-                            <option value="嗜辣">嗜辣</option>
-                        </select>
-                        <select name="drink_habit" class="p-3 bg-slate-50 border rounded-xl text-xs">
-                            <option value="每天咖啡/茶">每天咖啡/茶</option>
-                            <option value="喜欢含糖饮料">含糖饮料习惯</option>
-                            <option value="经常饮酒">经常性饮酒</option>
-                            <option value="基本只喝水">基本只喝水</option>
-                        </select>
                     </div>
                 </div>
             </div>
 
-            <!-- 第四部分：核心目标 -->
             <div id="section-4" class="form-section space-y-6">
                 <div>
-                    <label class="block text-sm font-semibold mb-2">1-3 个主要健康目标</label>
-                    <textarea name="goals" rows="4" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-600" placeholder="例如：&#10;1. 三个月减重 10 斤&#10;2. 改善因熬夜造成的皮肤状态&#10;3. 降低尿酸或空腹血糖水平"></textarea>
+                    <label class="block text-sm font-semibold mb-2">健康目标 (1-3个)</label>
+                    <textarea name="goals" rows="4" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-600" placeholder="例如：减重10斤..."></textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold mb-2">期望达成时间</label>
                     <select name="time_range" class="w-full p-4 bg-slate-50 border rounded-2xl">
-                        <option value="1个月内">1 个月内 (快速启动)</option>
                         <option value="3个月内">3 个月内 (稳定改善)</option>
-                        <option value="6个月内">6 个月内 (深度重塑)</option>
-                        <option value="长期坚持">长期坚持 (习惯养成)</option>
+                        <option value="长期坚持">长期坚持</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 控制按钮 -->
             <div class="mt-10 flex gap-4">
                 <button type="button" id="prevBtn" class="hidden flex-1 py-4 border-2 border-slate-200 text-slate-500 font-bold rounded-2xl hover:bg-slate-50 transition">返回</button>
                 <button type="button" id="nextBtn" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-100 transition">继续下一步</button>
@@ -219,7 +171,6 @@
             </div>
         </form>
 
-        <!-- 结果弹窗 -->
         <div id="resultModal" class="hidden fixed inset-0 bg-slate-900/90 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
             <div class="bg-white rounded-[2rem] p-8 w-full max-w-lg">
                 <h2 class="text-xl font-bold mb-4 text-center">档案生成成功</h2>
@@ -229,117 +180,145 @@
         </div>
     </div>
 
-  <script>
-// === 👇 在这里粘贴你的飞书 Webhook 地址 ===
+<script>
+// === 分页与交互逻辑 ===
+let currentStep = 1;
+const totalSteps = 4;
 const FEISHU_WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/480dc012-2838-4b4c-8274-a0dd2b6b80f9";
 
-// 提交到飞书
+// 获取 DOM 元素
+const sections = [
+    document.getElementById('section-1'),
+    document.getElementById('section-2'),
+    document.getElementById('section-3'),
+    document.getElementById('section-4')
+];
+const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.getElementById('prevBtn');
+const submitBtn = document.getElementById('submitBtn');
+const progressBar = document.getElementById('progress-bar');
+
+// 1. 切换步骤逻辑
+function updateStep(step) {
+    sections.forEach((s, index) => {
+        s.classList.toggle('active', index === step - 1);
+        document.getElementById(`step-info-${index + 1}`).classList.toggle('hidden', index !== step - 1);
+    });
+
+    progressBar.style.width = `${(step / totalSteps) * 100}%`;
+    prevBtn.classList.toggle('hidden', step === 1);
+    
+    if (step === totalSteps) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+    }
+}
+
+nextBtn.addEventListener('click', () => {
+    // 简单校验必填项
+    const currentInputs = sections[currentStep-1].querySelectorAll('[required]');
+    let allValid = true;
+    currentInputs.forEach(input => {
+        if (!input.value) {
+            input.style.borderColor = 'red';
+            allValid = false;
+        } else {
+            input.style.borderColor = '';
+        }
+    });
+
+    if (allValid && currentStep < totalSteps) {
+        currentStep++;
+        updateStep(currentStep);
+    }
+});
+
+prevBtn.addEventListener('click', () => {
+    if (currentStep > 1) {
+        currentStep--;
+        updateStep(currentStep);
+    }
+});
+
+// 2. BMI 自动计算 (资深专家公式调优)
+const heightInput = document.getElementById('height');
+const weightInput = document.getElementById('weight');
+const bmiPanel = document.getElementById('bmi-panel');
+
+function calcBMI() {
+    const h = heightInput.value / 100;
+    const w = weightInput.value;
+    if (h > 0 && w > 0) {
+        const bmi = (w / (h * h)).toFixed(1);
+        document.getElementById('bmi-val').innerText = bmi;
+        bmiPanel.classList.remove('hidden');
+        
+        let status = "正常";
+        let color = "bg-green-500";
+        if (bmi < 18.5) { status = "偏瘦"; color = "bg-yellow-500"; }
+        else if (bmi >= 24 && bmi < 28) { status = "超重"; color = "bg-orange-500"; }
+        else if (bmi >= 28) { status = "肥胖"; color = "bg-red-500"; }
+        
+        document.getElementById('bmi-status').innerText = status;
+        bmiPanel.className = `p-5 rounded-2xl flex justify-between items-center transition-all ${color} text-white mt-4`;
+    }
+}
+heightInput.addEventListener('input', calcBMI);
+weightInput.addEventListener('input', calcBMI);
+
+// 3. 其他功能函数
+function toggleOtherInput() {
+    const container = document.getElementById('other_health_input_container');
+    const checkbox = document.getElementById('other_health_checkbox');
+    container.classList.toggle('hidden', !checkbox.checked);
+}
+
+// 4. 提交飞书
 async function submitToFeishu() {
     const form = document.getElementById('healthForm');
     const fd = new FormData(form);
     const data = Object.fromEntries(fd.entries());
-
-    // 处理多选字段
-    let healthIssues = fd.getAll('health_issues') || [];
-    if (healthIssues.includes('其他') && data.other_health_detail) {
-        healthIssues = healthIssues.filter(i => i !== '其他');
-        healthIssues.push(`其他(${data.other_health_detail})`);
-    }
-    const sleepQuality = (fd.getAll('sleep_quality') || []).join('、');
-
-    // 构建飞书消息
-    const message = {
-        msg_type: "interactive",
-        card: {
-            config: { wide_screen_mode: true },
-            header: {
-                title: { content: "🆕 新健康档案提交", tag: "plain_text" },
-                template: "blue"
-            },
-            elements: [
-                { tag: "div", text: { content: `**姓名**：${data.name || '—'}\n**电话**：${data.phone || '—'}`, tag: "lark_md" } },
-                { tag: "hr" },
-                { tag: "div", text: { content: `性别：${data.gender || '—'}｜年龄：${data.age || '—'}岁`, tag: "lark_md" } },
-                { tag: "div", text: { content: `身高：${data.height || '—'}cm｜体重：${data.weight || '—'}kg`, tag: "lark_md" } },
-                { tag: "div", text: { content: `目标体重：${data.target_weight || '—'}kg`, tag: "lark_md" } },
-                { tag: "hr" },
-                { tag: "div", text: { content: `健康问题：${healthIssues.length ? healthIssues.join('、') : '无'}`, tag: "lark_md" } },
-                { tag: "div", text: { content: `食物过敏：${data.allergy || '无'}`, tag: "lark_md" } },
-                { tag: "div", text: { content: `中医体质：${data.constitution || '未填'}`, tag: "lark_md" } },
-                { tag: "hr" },
-                { tag: "div", text: { content: `饮食条件：${data.diet_condition || '—'}｜日均饮水：${data.water_cups ? parseInt(data.water_cups)*250 + 'ml' : '—'}`, tag: "lark_md" } },
-                { tag: "div", text: { content: `睡眠状况：${sleepQuality || '良好'}`, tag: "lark_md" } },
-                { tag: "div", text: { content: `口味偏好：${data.taste || '—'}｜饮品习惯：${data.drink_habit || '—'}`, tag: "lark_md" } },
-                { tag: "hr" },
-                { tag: "div", text: { content: `**健康目标**：\n${data.goals || '未填写'}`, tag: "lark_md" } },
-                { tag: "div", text: { content: `期望达成时间：${data.time_range || '—'}`, tag: "lark_md" } }
-            ]
-        }
-    };
+    
+    // 汇总逻辑
+    showLocalSummary(); 
 
     try {
         const res = await fetch(FEISHU_WEBHOOK, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(message)
+            body: JSON.stringify({
+                msg_type: "text",
+                content: { text: `🆕 新档案: ${data.name} (${data.phone})` }
+            })
         });
-
-        if (res.ok) {
-            alert("✅ 档案已成功提交！\n我们的健康顾问将尽快与您联系。");
-            // 可选：清空表单或跳转感谢页
-        } else {
-            throw new Error("提交失败");
-        }
+        if (res.ok) alert("✅ 提交成功！");
     } catch (e) {
-        console.error(e);
-        alert("❌ 提交失败，请稍后重试。\n（建议截图下方摘要并手动发送）");
-        showLocalSummary();
+        alert("提交失败，请复制下方摘要。");
     }
 }
 
-// 显示本地摘要（备用）
 function showLocalSummary() {
     const form = document.getElementById('healthForm');
     const fd = new FormData(form);
     const data = Object.fromEntries(fd.entries());
-    let issues = fd.getAll('health_issues') || [];
-    if (issues.includes('其他') && data.other_health_detail) {
-        issues = issues.filter(i => i !== '其他');
-        issues.push(`其他(${data.other_health_detail})`);
-    }
-    const sleep = (fd.getAll('sleep_quality') || []).join('、');
-    const ml = data.water_cups ? data.water_cups * 250 : 0;
-
-    const summary = `【有方家·健康档案】\n` +
-        `👤 ${data.name} | 📞 ${data.phone}\n` +
-        `📊 ${data.gender}｜${data.age}岁｜${data.height}cm/${data.weight}kg\n` +
-        `🎯 目标体重：${data.target_weight || '—'}kg\n` +
-        `🩺 健康问题：${issues.length ? issues.join('、') : '无'}\n` +
-        `🌿 过敏/体质：${data.allergy || '无'} / ${data.constitution || '—'}\n` +
-        `🍱 饮食：${data.diet_condition}｜💧 饮水：${ml}ml｜😴 睡眠：${sleep || '良好'}\n` +
-        `🌶️ 口味：${data.taste}｜🥤 饮品：${data.drink_habit}\n` +
-        `📌 目标：${data.goals}\n` +
-        `⏰ 时间：${data.time_range}`;
-
+    const summary = `【健康档案】\n姓名：${data.name}\n电话：${data.phone}\n指标：${data.height}cm/${data.weight}kg\n目标：${data.goals}`;
     document.getElementById('summary-content').textContent = summary;
     document.getElementById('resultModal').classList.remove('hidden');
 }
 
-// 绑定提交按钮
 document.getElementById('submitBtn').addEventListener('click', (e) => {
     e.preventDefault();
     submitToFeishu();
 });
 
 function copyAndFinish() {
-    const text = document.getElementById('summary-content').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-        alert("📋 档案已复制！请发送给顾问。");
-        document.getElementById('resultModal').classList.add('hidden');
-    });
+    navigator.clipboard.writeText(document.getElementById('summary-content').textContent);
+    alert("已复制！");
+    document.getElementById('resultModal').classList.add('hidden');
 }
 </script>
 </body>
-
 </html>
-
