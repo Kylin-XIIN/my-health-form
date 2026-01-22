@@ -133,7 +133,7 @@
                 </div>
             </div>
 
-            <!-- 第三部分：生活方式 -->
+            <!-- 第三部分：生活方式 (包含酒精选项) -->
             <div id="section-3" class="form-section space-y-6">
                 <div>
                     <label class="block text-sm font-semibold mb-3">饮食条件</label>
@@ -141,21 +141,106 @@
                         <label class="cursor-pointer"><input type="radio" name="diet_condition" value="自己做饭" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">自己做饭</div></label>
                         <label class="cursor-pointer"><input type="radio" name="diet_condition" value="公司食堂" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">公司食堂</div></label>
                         <label class="cursor-pointer"><input type="radio" name="diet_condition" value="经常外卖" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">经常外卖</div></label>
+                        <label class="cursor-pointer"><input type="radio" name="diet_condition" value="频繁应酬" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">频繁应酬</div></label>
                     </div>
                 </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-3">口味偏好 (多选)</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="cursor-pointer"><input type="checkbox" name="taste_pref" value="清淡" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">清淡</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="taste_pref" value="偏咸" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">偏咸</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="taste_pref" value="偏甜" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">偏甜</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="taste_pref" value="辛辣" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">辛辣</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="taste_pref" value="油腻" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">油腻</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="taste_pref" value="酸辣" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">酸辣</div></label>
+                    </div>
+                </div>
+
+                <!-- 优化：饮品偏好及频率 (新增酒精) -->
+                <div>
+                    <label class="block text-sm font-semibold mb-3">饮品/酒类偏好及频率</label>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <span class="text-xs font-medium">茶/咖啡</span>
+                            <div class="flex gap-2">
+                                <label class="cursor-pointer"><input type="radio" name="freq_tea" value="每天" class="hidden peer"><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">每天</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="freq_tea" value="偶尔" class="hidden peer"><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">偶尔</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="freq_tea" value="不喝" class="hidden peer" checked><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">不喝</div></label>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <span class="text-xs font-medium">含糖饮料</span>
+                            <div class="flex gap-2">
+                                <label class="cursor-pointer"><input type="radio" name="freq_sugar" value="每天" class="hidden peer"><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">每天</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="freq_sugar" value="偶尔" class="hidden peer"><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">偶尔</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="freq_sugar" value="不喝" class="hidden peer" checked><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">不喝</div></label>
+                            </div>
+                        </div>
+                        <!-- 新增：酒类选项 -->
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <span class="text-xs font-medium">酒精/酒类</span>
+                            <div class="flex gap-2">
+                                <label class="cursor-pointer"><input type="radio" name="freq_alcohol" value="每天" class="hidden peer"><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">每天</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="freq_alcohol" value="偶尔" class="hidden peer"><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">偶尔</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="freq_alcohol" value="不喝" class="hidden peer" checked><div class="px-3 py-1 border rounded-lg text-[10px] peer-checked:bg-blue-600 peer-checked:text-white">不喝</div></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-sm font-semibold mb-2">日均饮水量</label>
                     <select name="water_cups" class="w-full p-4 bg-slate-50 border rounded-2xl input-focus">
+                        <option value="2杯以下">2杯以下 (约 500ml以下)</option>
+                        <option value="2">2杯 (约 500ml)</option>
                         <option value="4">4杯 (约 1000ml)</option>
                         <option value="6">6杯 (约 1500ml)</option>
                         <option value="8">8杯 (约 2000ml)</option>
+                        <option value="10">10杯以上 (约 2500ml+)</option>
                     </select>
                 </div>
+
                 <div>
-                    <label class="block text-sm font-semibold mb-2">睡眠状况</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="睡眠充足" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">睡眠充足</div></label>
-                        <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="入睡困难" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">入睡困难</div></label>
+                    <label class="block text-sm font-semibold mb-3">作息与睡眠</label>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-slate-400 mb-2">平均睡眠时长 (小时/天)</p>
+                            <input type="number" step="0.5" name="sleep_hours" placeholder="请输入数字，如 7.5" class="w-full p-4 bg-slate-50 border rounded-2xl text-xs input-focus">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="入睡困难" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">入睡困难</div></label>
+                            <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="易醒/多梦" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">易醒/多梦</div></label>
+                            <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="经常熬夜" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">经常熬夜</div></label>
+                            <label class="cursor-pointer"><input type="checkbox" name="sleep_quality" value="醒后疲惫" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">醒后疲惫</div></label>
+                            <label class="cursor-pointer col-span-2"><input type="checkbox" name="sleep_quality" value="打鼾/憋气" class="hidden peer"><div class="p-3 border rounded-xl text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">打鼾/憋气</div></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-3">运动习惯</label>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-slate-400 mb-2">每周运动频率</p>
+                            <select name="exercise_freq" class="w-full p-4 bg-slate-50 border rounded-2xl text-xs">
+                                <option value="几乎不运动">几乎不运动</option>
+                                <option value="1-2次">每周 1-2 次</option>
+                                <option value="3-4次">每周 3-4 次</option>
+                                <option value="5次以上">每周 5 次以上</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-slate-400 mb-2">偏好运动类型 (多选)</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="cursor-pointer"><input type="checkbox" name="exercise_type" value="散步/慢跑" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">散步/慢跑</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" name="exercise_type" value="力量训练" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">力量训练</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" name="exercise_type" value="瑜伽/普拉提" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">瑜伽</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" name="exercise_type" value="球类" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">球类</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" name="exercise_type" value="游泳" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">游泳</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" name="exercise_type" value="骑行" class="hidden peer"><div class="p-2 border rounded-xl text-center text-xs peer-checked:bg-blue-50 peer-checked:border-blue-600">骑行</div></label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,13 +248,28 @@
             <!-- 第四部分：核心目标 -->
             <div id="section-4" class="form-section space-y-6">
                 <div>
-                    <label class="block text-sm font-semibold mb-2">主要健康目标 (1-3个)</label>
-                    <textarea name="goals" rows="4" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-600" placeholder="例如：三个月减重10斤..."></textarea>
+                    <label class="block text-sm font-semibold mb-3">主要健康目标 (可多选)</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="cursor-pointer"><input type="checkbox" name="health_goals" value="体重管理" class="hidden peer"><div class="p-4 border rounded-2xl text-sm peer-checked:bg-blue-50 peer-checked:border-blue-600 text-center font-medium">体重管理</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="health_goals" value="改善睡眠" class="hidden peer"><div class="p-4 border rounded-2xl text-sm peer-checked:bg-blue-50 peer-checked:border-blue-600 text-center font-medium">改善睡眠</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="health_goals" value="增强免疫力" class="hidden peer"><div class="p-4 border rounded-2xl text-sm peer-checked:bg-blue-50 peer-checked:border-blue-600 text-center font-medium">增强免疫力</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="health_goals" value="补充营养" class="hidden peer"><div class="p-4 border rounded-2xl text-sm peer-checked:bg-blue-50 peer-checked:border-blue-600 text-center font-medium">补充营养</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="health_goals" value="提升精力" class="hidden peer"><div class="p-4 border rounded-2xl text-sm peer-checked:bg-blue-50 peer-checked:border-blue-600 text-center font-medium">提升精力</div></label>
+                        <label class="cursor-pointer"><input type="checkbox" name="health_goals" value="调理肠胃" class="hidden peer"><div class="p-4 border rounded-2xl text-sm peer-checked:bg-blue-50 peer-checked:border-blue-600 text-center font-medium">调理肠胃</div></label>
+                        <label class="cursor-pointer col-span-2">
+                            <input type="checkbox" name="health_goals" value="其他" id="other_goal_checkbox" class="hidden peer">
+                            <div class="p-4 border rounded-2xl text-sm peer-checked:bg-blue-50 peer-checked:border-blue-600 text-center font-medium">其他目标</div>
+                        </label>
+                    </div>
+                    <div id="other_goal_input_container" class="hidden mt-3">
+                        <textarea name="goals_detail" rows="3" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-600 text-sm" placeholder="请详细描述您的其他需求..."></textarea>
+                    </div>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold mb-2">期望达成时间</label>
                     <select name="time_range" class="w-full p-4 bg-slate-50 border rounded-2xl">
                         <option value="3个月内">3 个月内 (稳定改善)</option>
+                        <option value="6个月内">6 个月内 (深度调理)</option>
                         <option value="长期坚持">长期坚持 (习惯养成)</option>
                     </select>
                 </div>
@@ -194,29 +294,23 @@
     </div>
 
 <script>
-    // 配置与状态
     const FEISHU_WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/480dc012-2838-4b4c-8274-a0dd2b6b80f9";
     let currentStep = 1;
     const totalSteps = 4;
 
-    // 页面元素
     const form = document.getElementById('healthForm');
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
     const submitBtn = document.getElementById('submitBtn');
     const progressBar = document.getElementById('progress-bar');
 
-    // 1. 表单步进逻辑
     function updateStep() {
-        // 切换部分
         document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
         document.getElementById(`section-${currentStep}`).classList.add('active');
         
-        // 切换头部说明
         document.querySelectorAll('.step-info').forEach(i => i.classList.add('hidden'));
         document.getElementById(`step-info-${currentStep}`).classList.remove('hidden');
 
-        // 更新按钮
         prevBtn.classList.toggle('hidden', currentStep === 1);
         if (currentStep === totalSteps) {
             nextBtn.classList.add('hidden');
@@ -226,12 +320,10 @@
             submitBtn.classList.add('hidden');
         }
 
-        // 更新进度条
         progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
     }
 
     nextBtn.addEventListener('click', () => {
-        // 简单校验
         const inputs = document.getElementById(`section-${currentStep}`).querySelectorAll('input[required]');
         let valid = true;
         inputs.forEach(i => { if(!i.value) { i.classList.add('border-red-400'); valid = false; } else { i.classList.remove('border-red-400'); } });
@@ -249,7 +341,6 @@
         }
     });
 
-    // 2. BMI 实时计算 (Persona tuning tip: 设定为专业营养师人格)
     function calculateBMI() {
         const h = parseFloat(document.getElementById('height').value) / 100;
         const w = parseFloat(document.getElementById('weight').value);
@@ -277,31 +368,46 @@
     document.getElementById('height').addEventListener('input', calculateBMI);
     document.getElementById('weight').addEventListener('input', calculateBMI);
 
-    // 3. 提交至飞书
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const fd = new FormData(form);
         const data = Object.fromEntries(fd.entries());
         
-        // 处理多选
         const healthIssues = fd.getAll('health_issues').join('、');
+        const tastePref = fd.getAll('taste_pref').join('、');
         const sleep = fd.getAll('sleep_quality').join('、');
-
+        const exerciseType = fd.getAll('exercise_type').join('、');
+        const selectedGoals = fd.getAll('health_goals').join('、');
+        
         const summary = `【有方家·健康档案】
 👤 姓名：${data.name}
 📞 电话：${data.phone}
 📊 指标：${data.gender} | ${data.age}岁 | ${data.height}cm / ${data.weight}kg
 🎯 目标：${data.target_weight}kg
-🩺 问题：${healthIssues || '无'}
-🌿 体质：${data.constitution}
-🍱 饮食：${data.diet_condition} | 😴 睡眠：${sleep || '正常'}
-📌 目标：${data.goals}
-⏰ 周期：${data.time_range}`;
+🩺 健康问题：${healthIssues || '无'}
+🌿 中医体质：${data.constitution}
+
+🍽️ 饮食与生活：
+- 条件：${data.diet_condition}
+- 口味：${tastePref || '未选择'}
+- 饮品：茶/咖啡(${data.freq_tea})、含糖饮料(${data.freq_sugar})、酒精/酒类(${data.freq_alcohol})
+- 饮水：约 ${data.water_cups}
+
+😴 作息与睡眠：
+- 时长：${data.sleep_hours || '未填'} 小时/天
+- 状况：${sleep || '正常'}
+
+🏃 运动习惯：
+- 频率：${data.exercise_freq}
+- 类型：${exerciseType || '无'}
+
+📌 核心目标：${selectedGoals}
+${data.goals_detail ? '📝 详情：' + data.goals_detail : ''}
+⏰ 期望周期：${data.time_range}`;
 
         document.getElementById('summary-content').textContent = summary;
         document.getElementById('resultModal').classList.remove('hidden');
 
-        // 发送至 Webhook (尝试)
         try {
             await fetch(FEISHU_WEBHOOK, {
                 method: 'POST',
@@ -316,7 +422,6 @@
         }
     });
 
-    // 4. 复制功能
     window.copyAndFinish = function() {
         const text = document.getElementById('summary-content').textContent;
         const textArea = document.createElement("textarea");
@@ -327,15 +432,18 @@
             document.execCommand('copy');
             alert("📋 档案已复制到剪贴板！\n请将内容发送给您的健康顾问。");
         } catch (err) {
-            alert("复制失败，请手动截屏或选取文本。");
+            alert("复制失败，请手动选取文本。");
         }
         document.body.removeChild(textArea);
         document.getElementById('resultModal').classList.add('hidden');
     };
 
-    // 其他选项切换
     document.getElementById('other_health_checkbox').addEventListener('change', function(e) {
         document.getElementById('other_health_input_container').classList.toggle('hidden', !e.target.checked);
+    });
+
+    document.getElementById('other_goal_checkbox').addEventListener('change', function(e) {
+        document.getElementById('other_goal_input_container').classList.toggle('hidden', !e.target.checked);
     });
 </script>
 </body>
