@@ -167,7 +167,7 @@
             <div class="mt-10 flex gap-4">
                 <button type="button" id="prevBtn" class="hidden flex-1 py-4 border-2 border-slate-200 text-slate-500 font-bold rounded-2xl hover:bg-slate-50 transition">返回</button>
                 <button type="button" id="nextBtn" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-100 transition">继续下一步</button>
-                <button type="submit" id="submitBtn" class="hidden flex-1 py-4 bg-green-600 text-white font-bold rounded-2xl hover:bg-green-700 shadow-xl shadow-green-100 transition">完成并生成档案</button>
+                <button type="button" id="submitBtn" class="hidden flex-1 py-4 bg-green-600 text-white font-bold rounded-2xl hover:bg-green-700 shadow-xl shadow-green-100 transition">完成并生成档案</button>
             </div>
         </form>
 
@@ -181,33 +181,24 @@
     </div>
 
 <script>
-// === 分页与交互逻辑 ===
+// === 分页与交互逻辑 (修复后的版本) ===
 let currentStep = 1;
 const totalSteps = 4;
-const FEISHU_WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/480dc012-2838-4b4c-8274-a0dd2b6b80f9";
+const webhookUrl = "https://open.feishu.cn/open-apis/bot/v2/hook/480dc012-2838-4b4c-8274-a0dd2b6b80f9";
 
-// 获取 DOM 元素
-const sections = [
-    document.getElementById('section-1'),
-    document.getElementById('section-2'),
-    document.getElementById('section-3'),
-    document.getElementById('section-4')
-];
+const sections = [1, 2, 3, 4].map(n => document.getElementById(`section-${n}`));
 const nextBtn = document.getElementById('nextBtn');
 const prevBtn = document.getElementById('prevBtn');
 const submitBtn = document.getElementById('submitBtn');
 const progressBar = document.getElementById('progress-bar');
 
-// 1. 切换步骤逻辑
 function updateStep(step) {
     sections.forEach((s, index) => {
         s.classList.toggle('active', index === step - 1);
         document.getElementById(`step-info-${index + 1}`).classList.toggle('hidden', index !== step - 1);
     });
-
     progressBar.style.width = `${(step / totalSteps) * 100}%`;
     prevBtn.classList.toggle('hidden', step === 1);
-    
     if (step === totalSteps) {
         nextBtn.classList.add('hidden');
         submitBtn.classList.remove('hidden');
@@ -217,14 +208,19 @@ function updateStep(step) {
     }
 }
 
+// 修改后的下一步校验逻辑
 nextBtn.addEventListener('click', () => {
-    // 简单校验必填项
-    const currentInputs = sections[currentStep-1].querySelectorAll('[required]');
+    const currentSection = sections[currentStep - 1];
+    const requiredInputs = currentSection.querySelectorAll('[required]');
     let allValid = true;
-    currentInputs.forEach(input => {
-        if (!input.value) {
-            input.style.borderColor = 'red';
+
+    requiredInputs.forEach(input => {
+        if (input.type === 'radio') {
+            const name = input.name;
+            if (!currentSection.querySelector(`input[name="${name}"]:checked`)) allValid = false;
+        } else if (!input.value.trim()) {
             allValid = false;
+            input.style.borderColor = 'red';
         } else {
             input.style.borderColor = '';
         }
@@ -233,6 +229,8 @@ nextBtn.addEventListener('click', () => {
     if (allValid && currentStep < totalSteps) {
         currentStep++;
         updateStep(currentStep);
+    } else if (!allValid) {
+        alert("请完整填写本页必填项后再继续哦！");
     }
 });
 
@@ -243,80 +241,78 @@ prevBtn.addEventListener('click', () => {
     }
 });
 
-// 2. BMI 自动计算 (资深专家公式调优)
-const heightInput = document.getElementById('height');
-const weightInput = document.getElementById('weight');
-const bmiPanel = document.getElementById('bmi-panel');
-
+// BMI 自动计算
+const hInput = document.getElementById('height');
+const wInput = document.getElementById('weight');
 function calcBMI() {
-    const h = heightInput.value / 100;
-    const w = weightInput.value;
+    const h = hInput.value / 100;
+    const w = wInput.value;
     if (h > 0 && w > 0) {
         const bmi = (w / (h * h)).toFixed(1);
         document.getElementById('bmi-val').innerText = bmi;
-        bmiPanel.classList.remove('hidden');
-        
+        document.getElementById('bmi-panel').classList.remove('hidden');
         let status = "正常";
         let color = "bg-green-500";
-        if (bmi < 18.5) { status = "偏瘦"; color = "bg-yellow-500"; }
+        if (bmi < 18.5) { status = "偏瘦"; color = "bg-blue-500"; }
         else if (bmi >= 24 && bmi < 28) { status = "超重"; color = "bg-orange-500"; }
         else if (bmi >= 28) { status = "肥胖"; color = "bg-red-500"; }
-        
         document.getElementById('bmi-status').innerText = status;
-        bmiPanel.className = `p-5 rounded-2xl flex justify-between items-center transition-all ${color} text-white mt-4`;
+        document.getElementById('bmi-panel').className = `p-5 rounded-2xl flex justify-between items-center transition-all ${color} text-white mt-4`;
     }
 }
-heightInput.addEventListener('input', calcBMI);
-weightInput.addEventListener('input', calcBMI);
+hInput.addEventListener('input', calcBMI);
+wInput.addEventListener('input', calcBMI);
 
-// 3. 其他功能函数
 function toggleOtherInput() {
-    const container = document.getElementById('other_health_input_container');
-    const checkbox = document.getElementById('other_health_checkbox');
-    container.classList.toggle('hidden', !checkbox.checked);
+    document.getElementById('other_health_input_container').classList.toggle('hidden', !document.getElementById('other_health_checkbox').checked);
 }
 
-// 4. 提交飞书
-async function submitToFeishu() {
+// === 核心：详细消息推送逻辑 ===
+submitBtn.addEventListener('click', async () => {
     const form = document.getElementById('healthForm');
     const fd = new FormData(form);
     const data = Object.fromEntries(fd.entries());
-    
-    // 汇总逻辑
-    showLocalSummary(); 
+    const bmiVal = document.getElementById('bmi-val').innerText;
+    const bmiStatus = document.getElementById('bmi-status').innerText;
+
+    // 获取多选框的值
+    const getCheckedValues = (name) => Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(i => i.value).join('、') || '无';
+
+    const cardContent = {
+        "msg_type": "interactive",
+        "card": {
+            "header": { "title": { "tag": "plain_text", "content": "📋 新增健康管理档案" }, "template": "blue" },
+            "elements": [
+                { "tag": "div", "fields": [
+                    { "is_short": true, "text": { "tag": "lark_md", "content": `**👤 姓名：**\n${data.name}` } },
+                    { "is_short": true, "text": { "tag": "lark_md", "content": `**📞 电话：**\n${data.phone}` } },
+                    { "is_short": true, "text": { "tag": "lark_md", "content": `**⚖️ BMI：**\n${bmiVal} (${bmiStatus})` } },
+                    { "is_short": true, "text": { "tag": "lark_md", "content": `**📏 体型：**\n${data.height}cm/${data.weight}kg` } }
+                ]},
+                { "tag": "hr" },
+                { "tag": "div", "text": { "tag": "lark_md", "content": `**⚠️ 健康记录：** ${getCheckedValues('health_issues')}\n**🌙 睡眠状况：** ${getCheckedValues('sleep_quality')}\n**🍵 体质：** ${data.constitution}\n**🎯 核心目标：** ${data.goals || '未填写'}` } }
+            ]
+        }
+    };
+
+    // 网页显示摘要
+    document.getElementById('summary-content').textContent = `姓名：${data.name}\n电话：${data.phone}\n指标：${data.height}cm/${data.weight}kg\nBMI：${bmiVal}\n目标：${data.goals}`;
+    document.getElementById('resultModal').classList.remove('hidden');
 
     try {
-        const res = await fetch(FEISHU_WEBHOOK, {
+        await fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                msg_type: "text",
-                content: { text: `🆕 新档案: ${data.name} (${data.phone})` }
-            })
+            body: JSON.stringify(cardContent)
         });
-        if (res.ok) alert("✅ 提交成功！");
     } catch (e) {
-        alert("提交失败，请复制下方摘要。");
+        console.log("飞书发送失败，但档案已生成");
     }
-}
-
-function showLocalSummary() {
-    const form = document.getElementById('healthForm');
-    const fd = new FormData(form);
-    const data = Object.fromEntries(fd.entries());
-    const summary = `【健康档案】\n姓名：${data.name}\n电话：${data.phone}\n指标：${data.height}cm/${data.weight}kg\n目标：${data.goals}`;
-    document.getElementById('summary-content').textContent = summary;
-    document.getElementById('resultModal').classList.remove('hidden');
-}
-
-document.getElementById('submitBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    submitToFeishu();
 });
 
 function copyAndFinish() {
     navigator.clipboard.writeText(document.getElementById('summary-content').textContent);
-    alert("已复制！");
+    alert("已复制档案摘要！");
     document.getElementById('resultModal').classList.add('hidden');
 }
 </script>
