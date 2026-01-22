@@ -229,114 +229,117 @@
         </div>
     </div>
 
-    <script>
-        let currentSection = 1;
-        const form = document.getElementById('healthForm');
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        const progressBar = document.getElementById('progress-bar');
+  <script>
+// === 👇 在这里粘贴你的飞书 Webhook 地址 ===
+const FEISHU_WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/480dc012-2838-4b4c-8274-a0dd2b6b80f9";
 
-        // BMI 实时评估
-        const hInput = document.getElementById('height');
-        const wInput = document.getElementById('weight');
-        const bmiPanel = document.getElementById('bmi-panel');
-        const bmiVal = document.getElementById('bmi-val');
-        const bmiStat = document.getElementById('bmi-status');
+// 提交到飞书
+async function submitToFeishu() {
+    const form = document.getElementById('healthForm');
+    const fd = new FormData(form);
+    const data = Object.fromEntries(fd.entries());
 
-        function updateBMI() {
-            const h = hInput.value / 100;
-            const w = wInput.value;
-            if (h > 0 && w > 0) {
-                const bmi = (w / (h * h)).toFixed(1);
-                bmiVal.textContent = bmi;
-                bmiPanel.classList.remove('hidden', 'bg-green-100', 'bg-yellow-100', 'bg-red-100', 'text-green-800', 'text-yellow-800', 'text-red-800');
-                
-                if (bmi < 18.5) {
-                    bmiStat.textContent = "体重过轻";
-                    bmiPanel.classList.add('bg-yellow-100', 'text-yellow-800');
-                } else if (bmi < 24) {
-                    bmiStat.textContent = "体重正常";
-                    bmiPanel.classList.add('bg-green-100', 'text-green-800');
-                } else if (bmi < 28) {
-                    bmiStat.textContent = "超重 (建议管理)";
-                    bmiPanel.classList.add('bg-yellow-100', 'text-yellow-800');
-                } else {
-                    bmiStat.textContent = "肥胖 (高风险预警)";
-                    bmiPanel.classList.add('bg-red-100', 'text-red-800');
-                }
-            }
+    // 处理多选字段
+    let healthIssues = fd.getAll('health_issues') || [];
+    if (healthIssues.includes('其他') && data.other_health_detail) {
+        healthIssues = healthIssues.filter(i => i !== '其他');
+        healthIssues.push(`其他(${data.other_health_detail})`);
+    }
+    const sleepQuality = (fd.getAll('sleep_quality') || []).join('、');
+
+    // 构建飞书消息
+    const message = {
+        msg_type: "interactive",
+        card: {
+            config: { wide_screen_mode: true },
+            header: {
+                title: { content: "🆕 新健康档案提交", tag: "plain_text" },
+                template: "blue"
+            },
+            elements: [
+                { tag: "div", text: { content: `**姓名**：${data.name || '—'}\n**电话**：${data.phone || '—'}`, tag: "lark_md" } },
+                { tag: "hr" },
+                { tag: "div", text: { content: `性别：${data.gender || '—'}｜年龄：${data.age || '—'}岁`, tag: "lark_md" } },
+                { tag: "div", text: { content: `身高：${data.height || '—'}cm｜体重：${data.weight || '—'}kg`, tag: "lark_md" } },
+                { tag: "div", text: { content: `目标体重：${data.target_weight || '—'}kg`, tag: "lark_md" } },
+                { tag: "hr" },
+                { tag: "div", text: { content: `健康问题：${healthIssues.length ? healthIssues.join('、') : '无'}`, tag: "lark_md" } },
+                { tag: "div", text: { content: `食物过敏：${data.allergy || '无'}`, tag: "lark_md" } },
+                { tag: "div", text: { content: `中医体质：${data.constitution || '未填'}`, tag: "lark_md" } },
+                { tag: "hr" },
+                { tag: "div", text: { content: `饮食条件：${data.diet_condition || '—'}｜日均饮水：${data.water_cups ? parseInt(data.water_cups)*250 + 'ml' : '—'}`, tag: "lark_md" } },
+                { tag: "div", text: { content: `睡眠状况：${sleepQuality || '良好'}`, tag: "lark_md" } },
+                { tag: "div", text: { content: `口味偏好：${data.taste || '—'}｜饮品习惯：${data.drink_habit || '—'}`, tag: "lark_md" } },
+                { tag: "hr" },
+                { tag: "div", text: { content: `**健康目标**：\n${data.goals || '未填写'}`, tag: "lark_md" } },
+                { tag: "div", text: { content: `期望达成时间：${data.time_range || '—'}`, tag: "lark_md" } }
+            ]
         }
-        hInput.addEventListener('input', updateBMI);
-        wInput.addEventListener('input', updateBMI);
+    };
 
-        // 控制“其他”输入框的显示
-        function toggleOtherInput() {
-            const checkbox = document.getElementById('other_health_checkbox');
-            const container = document.getElementById('other_health_input_container');
-            if (checkbox.checked) {
-                container.classList.remove('hidden');
-                document.getElementById('other_health_detail').focus();
-            } else {
-                container.classList.add('hidden');
-            }
-        }
-
-        function updateUI() {
-            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(`section-${currentSection}`).classList.add('active');
-            
-            document.querySelectorAll('.step-info').forEach(info => info.classList.add('hidden'));
-            document.getElementById(`step-info-${currentSection}`).classList.remove('hidden');
-
-            progressBar.style.width = `${(currentSection / 4) * 100}%`;
-
-            prevBtn.classList.toggle('hidden', currentSection === 1);
-            nextBtn.classList.toggle('hidden', currentSection === 4);
-            submitBtn.classList.toggle('hidden', currentSection !== 4);
-        }
-
-        nextBtn.addEventListener('click', () => { if (currentSection < 4) { currentSection++; updateUI(); } });
-        prevBtn.addEventListener('click', () => { if (currentSection > 1) { currentSection--; updateUI(); } });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const fd = new FormData(form);
-            const data = Object.fromEntries(fd.entries());
-            
-            // 处理多选框，排除勾选中的“其他”文字，改用自填内容
-            let issues = fd.getAll('health_issues');
-            if (issues.includes('其他')) {
-                issues = issues.filter(i => i !== '其他');
-                if (data.other_health_detail) {
-                    issues.push(`其他(${data.other_health_detail})`);
-                }
-            }
-            data.health_issues = issues;
-            data.sleep_quality = fd.getAll('sleep_quality');
-            
-            const ml = data.water_cups * 250;
-
-            const summary = `【有方家·健康管家档案摘要】\n` +
-                `1. 基础代谢：性别:${data.gender} | ${data.age}岁 | BMI:${(data.weight / (data.height/100)**2).toFixed(1)} (${bmiStat.textContent})\n` +
-                `2. 身体背景：病史:${data.health_issues.join('/') || '无'} | 体质:${data.constitution} | 过敏:${data.allergy || '无'}\n` +
-                `3. 环境习惯：饮食条件:${data.diet_condition || '未填'} | 饮水量:${ml}ml | 睡眠问题:${data.sleep_quality.join('/')}\n` +
-                `4. 饮食特征：口味:${data.taste} | 饮品习惯:${data.drink_habit}\n` +
-                `5. 核心诉求：${data.goals} | 时间窗口:${data.time_range}\n\n` +
-                `[AI Tuning Tip: 请作为资深健康管家，基于上述数据，分析用户的代谢与健康瓶颈。请给出：①每日针对性的热量缺口建议；②基于中医体质的“宜/忌”食物红黑榜；③根据其睡眠与饮食习惯设计的“微习惯”改良计划。]`;
-
-            document.getElementById('summary-content').innerText = summary;
-            document.getElementById('resultModal').classList.remove('hidden');
+    try {
+        const res = await fetch(FEISHU_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(message)
         });
 
-        function copyAndFinish() {
-            const text = document.getElementById('summary-content').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("已成功复制，请发送给您的健康管家！");
-                location.reload();
-            });
+        if (res.ok) {
+            alert("✅ 档案已成功提交！\n我们的健康顾问将尽快与您联系。");
+            // 可选：清空表单或跳转感谢页
+        } else {
+            throw new Error("提交失败");
         }
-    </script>
+    } catch (e) {
+        console.error(e);
+        alert("❌ 提交失败，请稍后重试。\n（建议截图下方摘要并手动发送）");
+        showLocalSummary();
+    }
+}
+
+// 显示本地摘要（备用）
+function showLocalSummary() {
+    const form = document.getElementById('healthForm');
+    const fd = new FormData(form);
+    const data = Object.fromEntries(fd.entries());
+    let issues = fd.getAll('health_issues') || [];
+    if (issues.includes('其他') && data.other_health_detail) {
+        issues = issues.filter(i => i !== '其他');
+        issues.push(`其他(${data.other_health_detail})`);
+    }
+    const sleep = (fd.getAll('sleep_quality') || []).join('、');
+    const ml = data.water_cups ? data.water_cups * 250 : 0;
+
+    const summary = `【有方家·健康档案】\n` +
+        `👤 ${data.name} | 📞 ${data.phone}\n` +
+        `📊 ${data.gender}｜${data.age}岁｜${data.height}cm/${data.weight}kg\n` +
+        `🎯 目标体重：${data.target_weight || '—'}kg\n` +
+        `🩺 健康问题：${issues.length ? issues.join('、') : '无'}\n` +
+        `🌿 过敏/体质：${data.allergy || '无'} / ${data.constitution || '—'}\n` +
+        `🍱 饮食：${data.diet_condition}｜💧 饮水：${ml}ml｜😴 睡眠：${sleep || '良好'}\n` +
+        `🌶️ 口味：${data.taste}｜🥤 饮品：${data.drink_habit}\n` +
+        `📌 目标：${data.goals}\n` +
+        `⏰ 时间：${data.time_range}`;
+
+    document.getElementById('summary-content').textContent = summary;
+    document.getElementById('resultModal').classList.remove('hidden');
+}
+
+// 绑定提交按钮
+document.getElementById('submitBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    submitToFeishu();
+});
+
+function copyAndFinish() {
+    const text = document.getElementById('summary-content').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        alert("📋 档案已复制！请发送给顾问。");
+        document.getElementById('resultModal').classList.add('hidden');
+    });
+}
+</script>
 </body>
 
 </html>
+
