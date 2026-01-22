@@ -29,7 +29,7 @@
                 </div>
                 <div class="step-title hidden" data-step="3">
                     <h1 class="text-2xl font-bold text-blue-400">有方家 · 健康档案</h1>
-                    <p class="text-slate-400 text-xs mt-2 italic">第三步：生活方式与偏好</p>
+                    <p class="text-slate-400 text-xs mt-2 italic">第三步：生活习惯调研</p>
                 </div>
                 <div class="step-title hidden" data-step="4">
                     <h1 class="text-2xl font-bold text-blue-400">有方家 · 健康档案</h1>
@@ -45,11 +45,11 @@
             <div id="section-1" class="form-section active space-y-6">
                 <div>
                     <label class="block text-sm font-semibold mb-2">姓名 <span class="text-red-500">*</span></label>
-                    <input type="text" name="name" required class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" placeholder="您的称呼">
+                    <input type="text" name="name" required class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" placeholder="请输入姓名">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold mb-2">联系电话 <span class="text-red-500">*</span></label>
-                    <input type="tel" name="phone" required class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" placeholder="接收方案的手机号">
+                    <input type="tel" name="phone" required class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus" placeholder="请输入手机号">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="col-span-2">
@@ -74,9 +74,9 @@
                         <input type="number" id="weight" name="weight" required class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl input-focus">
                     </div>
                 </div>
-                <div id="bmi-panel" class="hidden p-5 rounded-2xl flex justify-between items-center transition-all duration-300">
+                <div id="bmi-panel" class="hidden p-5 rounded-2xl flex justify-between items-center transition-all">
                     <div class="text-white">
-                        <p class="text-xs font-bold uppercase opacity-80">当前健康指标</p>
+                        <p class="text-xs font-bold uppercase opacity-80">您的 BMI 指数</p>
                         <p id="bmi-status" class="text-sm font-bold mt-1">--</p>
                     </div>
                     <span id="bmi-val" class="text-3xl font-black text-white">--</span>
@@ -86,171 +86,145 @@
             <div id="section-2" class="form-section space-y-6">
                 <label class="block text-sm font-semibold mb-3">已知健康挑战 (多选)</label>
                 <div class="grid grid-cols-2 gap-2">
-                    <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="高血压" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血压</div></label>
-                    <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="高血糖" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血糖</div></label>
-                    <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="高血脂" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血脂</div></label>
-                    <label class="cursor-pointer"><input type="checkbox" name="health_issues" value="脂肪肝" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">脂肪肝</div></label>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">中医体质</label>
-                    <select name="constitution" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none">
-                        <option value="未评估">不清楚</option>
-                        <option value="平和质">平和质 (较健康)</option>
-                        <option value="痰湿质">痰湿质 (易胖)</option>
-                        <option value="气虚质">气虚质 (乏力)</option>
-                    </select>
+                    <label class="cursor-pointer"><input type="checkbox" name="issues" value="高血压" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血压</div></label>
+                    <label class="cursor-pointer"><input type="checkbox" name="issues" value="高血糖" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血糖</div></label>
+                    <label class="cursor-pointer"><input type="checkbox" name="issues" value="高血脂" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">高血脂</div></label>
+                    <label class="cursor-pointer"><input type="checkbox" name="issues" value="脂肪肝" class="hidden peer"><div class="p-3 border rounded-xl text-center text-xs peer-checked:border-blue-600 peer-checked:bg-blue-50">脂肪肝</div></label>
                 </div>
             </div>
 
             <div id="section-3" class="form-section space-y-6">
-                <div>
-                    <label class="block text-sm font-semibold mb-3">饮食偏好</label>
-                    <div class="flex flex-wrap gap-2">
-                        <label class="cursor-pointer"><input type="radio" name="diet" value="自己做饭" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">自己做饭</div></label>
-                        <label class="cursor-pointer"><input type="radio" name="diet" value="食堂/外卖" class="hidden peer"><div class="px-4 py-2 border rounded-full text-xs peer-checked:bg-blue-600 peer-checked:text-white">食堂/外卖</div></label>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-3">过敏源</label>
-                    <input type="text" name="allergy" class="w-full p-4 bg-slate-50 border rounded-2xl" placeholder="无则不填">
-                </div>
+                <label class="block text-sm font-semibold mb-2">过敏源或忌口</label>
+                <input type="text" name="allergy" class="w-full p-4 bg-slate-50 border rounded-2xl" placeholder="如无则填无">
             </div>
 
             <div id="section-4" class="form-section space-y-6">
-                <div>
-                    <label class="block text-sm font-semibold mb-2">您的核心健康目标</label>
-                    <textarea name="goals" rows="4" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none" placeholder="例如：希望在3个月内减重5kg，改善精力..."></textarea>
-                </div>
+                <label class="block text-sm font-semibold mb-2">您的核心健康目标</label>
+                <textarea name="goals" rows="4" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none" placeholder="例如：3个月减重10斤..."></textarea>
             </div>
 
             <div class="mt-10 flex gap-4">
                 <button type="button" id="prevBtn" class="hidden flex-1 py-4 border-2 border-slate-200 text-slate-500 font-bold rounded-2xl">返回</button>
-                <button type="button" id="nextBtn" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-lg">继续下一步</button>
-                <button type="button" id="submitBtn" class="hidden flex-1 py-4 bg-green-600 text-white font-bold rounded-2xl shadow-lg">提交档案</button>
+                <button type="button" id="nextBtn" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-2xl">继续下一步</button>
+                <button type="button" id="submitBtn" class="hidden flex-1 py-4 bg-green-600 text-white font-bold rounded-2xl shadow-lg">提交档案并发送飞书</button>
             </div>
         </form>
     </div>
 
     <div id="resultModal" class="hidden fixed inset-0 bg-slate-900/90 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
         <div class="bg-white rounded-[2rem] p-8 w-full max-w-lg">
-            <h2 class="text-xl font-bold mb-4 text-center">档案提交成功</h2>
-            <div id="summary-content" class="bg-slate-50 p-5 rounded-2xl text-xs font-mono text-slate-600 h-64 overflow-y-auto mb-6 leading-relaxed"></div>
-            <button onclick="location.reload()" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold">返回修改</button>
+            <h2 class="text-xl font-bold mb-4 text-center">档案提交成功！</h2>
+            <p class="text-center text-slate-500 text-sm mb-6">详细信息已发送至飞书群聊</p>
+            <button onclick="location.reload()" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold">返回</button>
         </div>
     </div>
 
     <script>
-        let currentStep = 1;
-        const totalSteps = 4;
+        // === 配置区域 ===
+        // 这里换成你自己的飞书 Webhook 地址
         const webhookUrl = "https://open.feishu.cn/open-apis/bot/v2/hook/480dc012-2838-4b4c-8274-a0dd2b6b80f9";
 
-        // DOM 元素引用
+        let currentStep = 1;
+        const totalSteps = 4;
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
         const submitBtn = document.getElementById('submitBtn');
-        const progressBar = document.getElementById('progress-bar');
         const sections = [1, 2, 3, 4].map(n => document.getElementById(`section-${n}`));
-        const stepTitles = document.querySelectorAll('.step-title');
 
-        // 更新 UI 状态
         function updateUI() {
             sections.forEach((s, i) => s.classList.toggle('active', i === currentStep - 1));
-            stepTitles.forEach((t, i) => t.classList.toggle('hidden', i !== currentStep - 1));
-            
-            progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
-            
+            document.querySelectorAll('.step-title').forEach((t, i) => t.classList.toggle('hidden', i !== currentStep - 1));
+            document.getElementById('progress-bar').style.width = `${(currentStep / totalSteps) * 100}%`;
             prevBtn.classList.toggle('hidden', currentStep === 1);
             nextBtn.classList.toggle('hidden', currentStep === totalSteps);
             submitBtn.classList.toggle('hidden', currentStep !== totalSteps);
         }
 
-        // 核心跳转逻辑（已修复 Radio 校验 Bug）
         nextBtn.addEventListener('click', () => {
             const currentSection = sections[currentStep - 1];
-            const requiredFields = currentSection.querySelectorAll('[required]');
-            let isValid = true;
-
-            // 针对不同类型的 input 进行校验
-            requiredFields.forEach(field => {
-                if (field.type === 'radio') {
-                    const name = field.name;
-                    const checked = currentSection.querySelector(`input[name="${name}"]:checked`);
-                    if (!checked) isValid = false;
-                } else {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.style.borderColor = "#ef4444";
-                    } else {
-                        field.style.borderColor = "";
-                    }
+            const required = currentSection.querySelectorAll('[required]');
+            let valid = true;
+            required.forEach(input => {
+                if(input.type === 'radio') {
+                    if(!currentSection.querySelector(`input[name="${input.name}"]:checked`)) valid = false;
+                } else if(!input.value.trim()) {
+                    valid = false;
                 }
             });
-
-            if (isValid) {
-                currentStep++;
-                updateUI();
-            } else {
-                alert("请先填写必填项（标记为 * 的内容）");
-            }
+            if(valid) { currentStep++; updateUI(); }
+            else alert("请填写完整本页必填项");
         });
 
-        prevBtn.addEventListener('click', () => {
-            currentStep--;
-            updateUI();
-        });
+        prevBtn.addEventListener('click', () => { currentStep--; updateUI(); });
 
-        // BMI 计算逻辑 (AI Tuning Tip: 赋予健康顾问Persona以提升公式严谨度)
-        function calculateBMI() {
+        // BMI 计算
+        function calcBMI() {
             const h = document.getElementById('height').value / 100;
             const w = document.getElementById('weight').value;
-            const panel = document.getElementById('bmi-panel');
-            
             if (h > 0 && w > 0) {
                 const bmi = (w / (h * h)).toFixed(1);
-                const valEl = document.getElementById('bmi-val');
-                const statusEl = document.getElementById('bmi-status');
-                valEl.innerText = bmi;
-                panel.classList.remove('hidden');
-
-                if (bmi < 18.5) {
-                    statusEl.innerText = "偏瘦 (增肌潜力大)";
-                    panel.className = "p-5 rounded-2xl flex justify-between items-center bg-blue-500 mt-4";
-                } else if (bmi < 24) {
-                    statusEl.innerText = "标准 (请继续保持)";
-                    panel.className = "p-5 rounded-2xl flex justify-between items-center bg-green-500 mt-4";
-                } else if (bmi < 28) {
-                    statusEl.innerText = "超重 (建议启动管理)";
-                    panel.className = "p-5 rounded-2xl flex justify-between items-center bg-orange-500 mt-4";
-                } else {
-                    statusEl.innerText = "肥胖 (需临床级关注)";
-                    panel.className = "p-5 rounded-2xl flex justify-between items-center bg-red-600 mt-4";
-                }
+                document.getElementById('bmi-val').innerText = bmi;
+                document.getElementById('bmi-panel').classList.remove('hidden');
+                let status = "正常";
+                let color = "bg-green-500";
+                if(bmi >= 24) { status = "超重"; color = "bg-orange-500"; }
+                if(bmi >= 28) { status = "肥胖"; color = "bg-red-500"; }
+                if(bmi < 18.5) { status = "偏瘦"; color = "bg-blue-500"; }
+                document.getElementById('bmi-status').innerText = status;
+                document.getElementById('bmi-panel').className = `p-5 rounded-2xl flex justify-between items-center transition-all ${color} mt-4`;
             }
         }
-        document.getElementById('height').addEventListener('input', calculateBMI);
-        document.getElementById('weight').addEventListener('input', calculateBMI);
+        document.getElementById('height').addEventListener('input', calcBMI);
+        document.getElementById('weight').addEventListener('input', calcBMI);
 
-        // 提交逻辑
+        // 提交飞书 (卡片消息)
         submitBtn.addEventListener('click', async () => {
             const formData = new FormData(document.getElementById('healthForm'));
             const data = Object.fromEntries(formData.entries());
-            
-            // 汇总文本
-            let summary = `【有方家·新用户档案】\n`;
-            summary += `姓名：${data.name}\n电话：${data.phone}\n性别：${data.gender}\n指标：${data.height}cm / ${data.weight}kg\n目标：${data.goals || '未填写'}`;
+            const bmi = document.getElementById('bmi-val').innerText;
+            const status = document.getElementById('bmi-status').innerText;
 
-            document.getElementById('summary-content').innerText = summary;
-            document.getElementById('resultModal').classList.remove('hidden');
+            // 获取选中的健康问题
+            const issues = Array.from(document.querySelectorAll('input[name="issues"]:checked')).map(i => i.value).join(', ') || '无';
 
-            // 发送到飞书
+            // 构建飞书卡片消息
+            const card = {
+                "msg_type": "interactive",
+                "card": {
+                    "header": {
+                        "title": { "tag": "plain_text", "content": "📋 新用户健康档案录入" },
+                        "template": "blue"
+                    },
+                    "elements": [
+                        {
+                            "tag": "div",
+                            "fields": [
+                                { "is_short": true, "text": { "tag": "lark_md", "content": `**👤 姓名：**\n${data.name}` } },
+                                { "is_short": true, "text": { "tag": "lark_md", "content": `**📞 电话：**\n${data.phone}` } },
+                                { "is_short": true, "text": { "tag": "lark_md", "content": `**⚧ 性别：**\n${data.gender}` } },
+                                { "is_short": true, "text": { "tag": "lark_md", "content": `**⚖️ BMI：**\n${bmi} (${status})` } },
+                                { "is_short": true, "text": { "tag": "lark_md", "content": `**📏 身高：**\n${data.height}cm` } },
+                                { "is_short": true, "text": { "tag": "lark_md", "content": `**🏋️ 体重：**\n${data.weight}kg` } }
+                            ]
+                        },
+                        { "tag": "hr" },
+                        { "tag": "div", "text": { "tag": "lark_md", "content": `**⚠️ 健康问题：**\n${issues}` } },
+                        { "tag": "div", "text": { "tag": "lark_md", "content": `**🎯 核心目标：**\n${data.goals || '未填写'}` } }
+                    ]
+                }
+            };
+
             try {
-                await fetch(webhookUrl, {
+                const response = await fetch(webhookUrl, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ msg_type: "text", content: { text: summary }})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(card)
                 });
+                if(response.ok) {
+                    document.getElementById('resultModal').classList.remove('hidden');
+                }
             } catch (e) {
-                console.error("飞书发送失败", e);
+                alert("发送失败，请检查网络或地址");
             }
         });
     </script>
